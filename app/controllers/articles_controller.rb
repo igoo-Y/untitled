@@ -8,8 +8,10 @@ class ArticlesController < ApplicationController
 
   # GET /articles/1 or /articles/1.json
   def show
-    @comment = Comment.new
-    @comment.user_id = current_user.id
+    if user_signed_in?
+      @comment = Comment.new
+      @comment.user_id = current_user.id
+    end
   end
 
   # GET /articles/new
@@ -74,7 +76,7 @@ class ArticlesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def article_params
-      params.require(:article).permit(:title, :content)
+      params.require(:article).permit(:title, :content, :image)
     end
 
     def hashtag_params

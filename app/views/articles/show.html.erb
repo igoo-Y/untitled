@@ -11,6 +11,11 @@
 </p>
 
 <p>
+  <%=image_tag(@article.image.url) %>
+<!--  <img src="<%#=@article.image %>">-->
+</p>
+
+<p>
   <strong>Hashtags: </strong>
   <%@article.hashtags.each do |h| %>
     #<%=h.title %>
@@ -20,14 +25,16 @@
 <%= link_to 'Edit', edit_article_path(@article) %> |
 <%= link_to 'Back', articles_path %>
 
-<p>
-  <%=form_for Comment.new, url: article_comments_path(@article.id) do |f| %>
-    <%=f.label :content %>
-    <%=f.text_field :content %>
+<%if user_signed_in? %>
+  <p>
+    <%=form_for Comment.new, url: article_comments_path(@article.id) do |f| %>
+      <%=f.label :content %>
+      <%=f.text_field :content %>
 
-    <%=f.submit %>
-  <%end %>
-</p>
+      <%=f.submit %>
+    <%end %>
+  </p>
+<%end %>
 
 <%@article.comments.each do |comment| %>
 
@@ -37,4 +44,4 @@
     <%=link_to '삭제', article_comment_path(@article.id, comment.id), method: :delete %>
   <%end %>
 
-<%end %>
+<%end%>
